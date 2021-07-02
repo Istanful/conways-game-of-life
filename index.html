@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./expect.js"></script>
+    <script src="./live-cell.js"></script>
+    <script src="./live-cell.test.js"></script>
+    <script src="./dead-cell.js"></script>
+    <script src="./dead-cell.test.js"></script>
+    <script src="./board.js"></script>
+    <script src="./board.test.js"></script>
+    <script src="./game-canvas.js" defer></script>
+    <script src="./play-tick-mode.js" defer></script>
+    <script src="./pause-tick-mode.js" defer></script>
+    <script src="./game.js" defer></script>
+    <script src="./q.js" defer></script>
+    <script src="./main.js" defer></script>
+  </head>
+  <body>
+    <canvas id="game-canvas" width="1080" height="720"></canvas>
+    <label for="ticks-per-second">Ticks per second</label>
+    <input type="number" id="ticks-per-second" value="3" />
+    <button id="reset" onClick="game.reset()">Reset</button>
+    <button id="play-pause" onClick="game.playPause()">Play</button>
+  </body>
+</html>
