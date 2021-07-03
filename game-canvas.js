@@ -2,6 +2,7 @@ class GameCanvas {
   constructor() {
     this.canvas = q("#game-canvas").first();
     this.context = this.canvas.getContext("2d");
+    this.machine = new PaintStateMachine();
   }
 
   draw(board, state) {
@@ -20,16 +21,38 @@ class GameCanvas {
 
   start(game) {
     this.fitToScreen();
-    this.registerClickListener(game);
+    this.registerPaintListener(game);
   }
 
-  registerClickListener(game) {
-    this.canvas.addEventListener("click", ({ offsetX, offsetY }) => {
-      const [x, y] = WorldPosition.fromOffset(offsetX, offsetY, game.state);
-      game.board.set(x, y, !game.board.get(x, y).isAlive);
-      this.draw(game.board, game.state);
+  registerPaintListener(game) {
+    this.canvas.addEventListener("mousedown", (event) =>
+      this.machine.dispatch("MOUSE_DOWN", event)
+    );
+
+    this.canvas.addEventListener("mousemove", (event) => {
+      this.machine.dispatch("MOUSE_MOVE", event);
     });
+
+    this.canvas.addEventListener("mouseup", (event) =>
+      this.machine.dispatch("MOUSE_UP", event)
+    );
+
+    this.machine.onTouch("PAINTING", (event) => this.handlePaint(game, event));
   }
+
+  handlePaint = (game, { offsetX, offsetY }) => {
+    const newPos = WorldPosition.fromOffset(offsetX, offsetY, game.state);
+    const isSamePos = inspect(game.state.lastPos) === inspect(newPos);
+    game.state.lastPos = newPos;
+
+    if (isSamePos) {
+      return;
+    }
+
+    const [x, y] = newPos;
+    game.board.set(x, y, !game.board.get(x, y).isAlive);
+    this.draw(game.board, game.state);
+  };
 
   fitToScreen() {
     this.canvas.width = window.innerWidth;
