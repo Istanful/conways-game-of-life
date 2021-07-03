@@ -18,6 +18,28 @@ class GameCanvas {
     });
   }
 
+  start(game) {
+    this.fitToScreen();
+    this.registerClickListener(game);
+  }
+
+  registerClickListener(game) {
+    this.canvas.addEventListener("click", ({ offsetX, offsetY }) => {
+      const [x, y] = WorldPosition.fromOffset(offsetX, offsetY, game.state);
+      game.board.set(x, y, !game.board.get(x, y).isAlive);
+      this.draw(game.board, game.state);
+    });
+  }
+
+  fitToScreen() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    window.addEventListener("resize", () => {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    });
+  }
+
   get width() {
     return this.canvas.width;
   }

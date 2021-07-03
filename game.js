@@ -4,6 +4,8 @@ class Game {
     this.gameCanvas = new GameCanvas();
     this.state = {
       blockSize: 20,
+      width: this.gameCanvas.width,
+      height: this.gameCanvas.width,
     };
     this.tickMode = new PauseTickMode(this);
   }
@@ -22,16 +24,7 @@ class Game {
   }
 
   start() {
-    this.gameCanvas.canvas.addEventListener("click", ({ offsetX, offsetY }) => {
-      const { width, height } = this.gameCanvas;
-      const relativeX = offsetX / this.gameCanvas.width;
-      const x = Math.floor((width / this.state.blockSize) * relativeX);
-      const relativeY = offsetY / this.gameCanvas.height;
-      const y = Math.floor((height / this.state.blockSize) * relativeY);
-
-      this.board.set(x, y, !this.board.get(x, y).isAlive);
-      this.draw();
-    });
+    this.gameCanvas.start(this);
     this.tick();
   }
 
