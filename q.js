@@ -1,11 +1,10 @@
-function q(query) {
-  const result = Array.prototype.slice.call(document.querySelectorAll(query));
-  result.value = () => result[0]?.value;
-  result.first = () => result[0];
-  result.text = (text) => {
-    result.forEach((el) => {
-      el.innerText = text;
-    });
+function q(queryOrElement) {
+  const type = typeof queryOrElement;
+  const performQueryMap = {
+    string: () =>
+      Array.prototype.slice.call(document.querySelectorAll(queryOrElement)),
+    object: () => wrap(queryOrElement),
   };
-  return result;
+  const elements = performQueryMap[type]();
+  return new QueryResult(elements);
 }

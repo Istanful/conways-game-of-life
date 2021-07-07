@@ -25,17 +25,10 @@ class GameCanvas {
   }
 
   registerPaintListener(game) {
-    this.canvas.addEventListener("mousedown", (event) =>
-      this.machine.dispatch("MOUSE_DOWN", event)
-    );
-
-    this.canvas.addEventListener("mousemove", (event) => {
-      this.machine.dispatch("MOUSE_MOVE", event);
-    });
-
-    this.canvas.addEventListener("mouseup", (event) =>
-      this.machine.dispatch("MOUSE_UP", event)
-    );
+    const canvas = q(this.canvas);
+    canvas.on("mousedown", (ev) => this.machine.dispatch("MOUSE_DOWN", ev));
+    canvas.on("mousemove", (ev) => this.machine.dispatch("MOUSE_MOVE", ev));
+    canvas.on("mouseup", (ev) => this.machine.dispatch("MOUSE_UP", ev));
 
     this.machine.onTouch("PAINTING", (event) => this.handlePaint(game, event));
   }
