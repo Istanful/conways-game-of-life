@@ -1,6 +1,6 @@
 class Game {
   constructor() {
-    this.board = new Board();
+    this.history = new GameHistory();
     this.gameCanvas = new GameCanvas();
     this.state = {
       blockSize: 20,
@@ -10,12 +10,16 @@ class Game {
     this.tickMode = new PauseTickMode(this);
   }
 
+  get board() {
+    return this.history.last();
+  }
+
   playPause() {
     this.tickMode = this.tickMode.next();
   }
 
   reset() {
-    this.board = new Board();
+    this.history = new GameHistory();
     this.draw();
   }
 
@@ -27,6 +31,15 @@ class Game {
     this.gameCanvas.start(this);
     this.tick();
   }
+
+  stepForwards = () => {
+    new PlayTickMode(this).tick();
+  };
+
+  stepBackwards = () => {
+    this.history.pop();
+    this.draw();
+  };
 
   tick = () => {
     this.tickMode.tick();

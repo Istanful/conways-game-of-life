@@ -9,7 +9,7 @@ class PlayTickMode {
   }
 
   tick = () => {
-    this.game.board = this.game.board.next();
+    this.game.history.push(this.game.board.next());
     this.game.draw();
   };
 

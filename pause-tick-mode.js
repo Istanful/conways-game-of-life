@@ -9,7 +9,7 @@ class PauseTickMode {
   }
 
   tick() {
-    this.game.gameCanvas.draw(this.game.board, this.game.state);
+    this.game.draw();
   }
 
   next() {
