@@ -4,7 +4,7 @@ class PlayTickMode {
   }
 
   start() {
-    q("#play-pause").text("Pause");
+    q("#play-pause").text("Pause (Space)");
     return this;
   }
 
