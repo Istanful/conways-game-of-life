@@ -6,4 +6,5 @@ new Keyboard()
   .onKeyDown(" ", () => game.playPause())
   .onKeyDown(">", () => game.increaseSpeed())
   .onKeyDown("<", () => game.decreaseSpeed())
+  .onKeyDown("Shift+Backspace", () => game.reset())
   .listen();

@@ -1,17 +1,22 @@
 class Keyboard {
   constructor() {
-    this.listeners = {};
+    this.listeners = [];
   }
 
   listen = () => {
     q(document).on("keydown", (event) => {
-      const callback = this.listeners[event.key] ?? (() => {});
-      callback(event);
+      this.listeners
+        .filter((listener) => listener.keyCombo.isMatching(event))
+        .forEach((listener) => listener.callback(event));
     });
+    return this;
   };
 
-  onKeyDown = (key, callback) => {
-    this.listeners[key] = callback;
+  onKeyDown = (keysStr, callback) => {
+    this.listeners.push({
+      keyCombo: new KeyCombination(keysStr),
+      callback,
+    });
     return this;
   };
 }
