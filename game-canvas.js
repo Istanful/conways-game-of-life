@@ -3,19 +3,22 @@ class GameCanvas {
     this.canvas = q("#game-canvas").first();
     this.context = this.canvas.getContext("2d");
     this.machine = new PaintStateMachine();
+    this.afterResizeCallback = () => {};
   }
 
   draw(board, state) {
-    this.context.fillStyle = "black";
-    this.context.fillRect(0, 0, this.width, this.height);
-    board.forEachCell((cell) => {
-      this.context.fillStyle = cell.color;
-      this.context.fillRect(
-        cell.x * state.blockSize,
-        cell.y * state.blockSize,
-        state.blockSize,
-        state.blockSize
-      );
+    requestAnimationFrame(() => {
+      this.context.fillStyle = "black";
+      this.context.fillRect(0, 0, this.width, this.height);
+      board.forEachCell((cell) => {
+        this.context.fillStyle = cell.color;
+        this.context.fillRect(
+          state.cameraX + cell.x * state.blockSize,
+          state.cameraY + cell.y * state.blockSize,
+          state.blockSize,
+          state.blockSize
+        );
+      });
     });
   }
 
@@ -31,6 +34,10 @@ class GameCanvas {
     canvas.on("mouseup", (ev) => this.machine.dispatch("MOUSE_UP", ev));
 
     this.machine.onTouch("PAINTING", (event) => this.handlePaint(game, event));
+  }
+
+  afterResize(callback) {
+    this.afterResizeCallback = callback;
   }
 
   handlePaint = (game, { offsetX, offsetY }) => {
@@ -50,9 +57,12 @@ class GameCanvas {
   fitToScreen() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+    this.afterResizeCallback();
+
     window.addEventListener("resize", () => {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
+      this.afterResizeCallback();
     });
   }
 

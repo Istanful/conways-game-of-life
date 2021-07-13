@@ -1,5 +1,6 @@
 const game = new Game();
 game.start();
+
 new Keyboard()
   .onKeyDown("ArrowRight", () => game.stepForwards())
   .onKeyDown("ArrowLeft", () => game.stepBackwards())
@@ -8,3 +9,5 @@ new Keyboard()
   .onKeyDown("<", () => game.decreaseSpeed())
   .onKeyDown("Shift+Backspace", () => game.reset())
   .listen();
+
+new Mouse().onScrollWheel(({ deltaY }) => game.zoom(deltaY));
