@@ -3,11 +3,13 @@ class GameCanvas {
     this.canvas = q("#game-canvas").first();
     this.context = this.canvas.getContext("2d");
     this.machine = new PaintStateMachine();
+    this.lastPaintAt = performance.now();
+    this.animationFrameId = 0;
     this.afterResizeCallback = () => {};
   }
 
   draw(board, state) {
-    requestAnimationFrame(() => {
+    this.requestUniqueFrame(() => {
       this.context.fillStyle = "black";
       this.context.fillRect(0, 0, this.width, this.height);
       board.forEachCell((cell) => {
@@ -19,6 +21,19 @@ class GameCanvas {
           state.blockSize
         );
       });
+    });
+  }
+
+  requestUniqueFrame(callback) {
+    this.animationFrameId = requestAnimationFrame((currentTime) => {
+      if (currentTime === this.lastPaintAt && this.animationFrameId !== 0) {
+        cancelAnimationFrame(this.animationFrameId);
+        return;
+      }
+
+      callback(currentTime);
+
+      this.lastPaintAt = currentTime;
     });
   }
 
