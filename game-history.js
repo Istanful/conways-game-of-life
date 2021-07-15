@@ -1,4 +1,4 @@
-const MAX_HISTORY_SIZE = 10 ** 10;
+const MAX_HISTORY_SIZE = 1_000_000;
 
 class GameHistory {
   constructor(boards, { maxSize = MAX_HISTORY_SIZE } = {}) {
