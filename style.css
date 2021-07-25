@@ -1,3 +1,8 @@
+:root {
+  --foreground-color: white;
+  --background-color: black;
+}
+
 body,
 html {
   margin: 0;
@@ -13,4 +18,50 @@ main {
   top: 0;
   left: 0;
   color: white;
+  display: flex;
+  padding: 3rem;
+  background: rgba(0, 0, 0, 0.8);
+  gap: 3rem;
+}
+
+button {
+  background: none;
+  border: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button svg {
+  fill: var(--foreground-color);
+  height: 100%;
+}
+
+.pause-btn .left-bar,
+.pause-btn .right-bar,
+.play-btn .left-bar,
+.play-btn .right-bar {
+  border-color: transparent transparent transparent var(--foreground-color);
+  border-style: solid;
+  transition: all 0.1s ease-out;
+  width: 0;
+}
+
+.pause-btn .left-bar,
+.pause-btn .right-bar {
+  height: 100%;
+  border-width: 0 0.6rem 0 0.9rem;
+}
+
+.play-btn .left-bar {
+  height: 0;
+  border-width: 1.5rem 0 1.5rem 3rem;
+}
+
+.play-btn .right-bar {
+  height: 0;
+  border-width: 0.6rem 0 0.6rem 1.5rem;
+  transform: translateX(-100%);
 }

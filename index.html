@@ -34,15 +34,55 @@
   <body>
     <main>
       <canvas id="game-canvas" width="1080" height="720"></canvas>
+
       <div class="toolbar">
-        <button id="reset" onClick="game.reset()">
-          Reset (Shift+Backspace)
+        <button onClick="game.decreaseSpeed()" title="Decrease speed (&lt;)">
+          <svg viewbox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 50 0 L 0 50 L 50 100 Z" />
+            <path d="M 100 0 L 100 100 L 50 50 Z" />
+          </svg>
         </button>
-        <button onClick="game.decreaseSpeed()">Decrease speed (&lt;)</button>
-        <button onClick="game.stepBackwards()">Step backwards (←)</button>
-        <button id="play-pause" onClick="game.playPause()">Play (Space)</button>
-        <button onClick="game.stepForwards()">Step forward (→)</button>
-        <button onClick="game.increaseSpeed()">Increase speed (&gt;)</button>
+
+        <button onClick="game.stepBackwards()" title="Step backwards (←)">
+          <svg viewbox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 70 0 l 30 0 l 0 100 l -30 0 Z" />
+            <path d="M 50 0 L 0 50 L 50 100 Z" />
+          </svg>
+        </button>
+
+        <button
+          id="reset"
+          onClick="game.reset()"
+          title="Reset (Shift+Backspace)"
+        >
+          <svg viewbox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 0 0 l 100 0 l 0 100 l -100 0 Z" />
+          </svg>
+        </button>
+
+        <button
+          id="play-pause"
+          class="play-btn"
+          onClick="game.playPause()"
+          title="Play/pause (Space)"
+        >
+          <div class="left-bar"></div>
+          <div class="right-bar"></div>
+        </button>
+
+        <button onClick="game.stepForwards()" title="Step forward (→)">
+          <svg viewbox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 0 0 l 30 0 l 0 100 l -30 0 Z" />
+            <path d="M 50 0 L 100 50 L 50 100 Z" />
+          </svg>
+        </button>
+
+        <button onClick="game.increaseSpeed()" title="Increase speed (&gt;)">
+          <svg viewbox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 0 0 L 50 50 L 0 100 Z" />
+            <path d="M 50 0 L 100 50 L 50 100 Z" />
+          </svg>
+        </button>
       </div>
     </main>
   </body>

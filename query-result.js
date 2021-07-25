@@ -3,6 +3,18 @@ class QueryResult {
     this.elements = elements;
   }
 
+  class = (className, isEnabled = true) => {
+    if (isEnabled) {
+      return this.elements.forEach((el) => {
+        el.classList.add(className);
+      });
+    }
+
+    this.elements.forEach((el) => {
+      el.classList.remove(className);
+    });
+  };
+
   value = () => {
     return this.first()?.value;
   };
