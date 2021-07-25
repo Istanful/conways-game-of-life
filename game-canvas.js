@@ -45,8 +45,17 @@ class GameCanvas {
   registerPaintListener(game) {
     const canvas = q(this.canvas);
     canvas.on("mousedown", (ev) => this.machine.dispatch("MOUSE_DOWN", ev));
+    canvas.on("touchstart", (ev) =>
+      this.machine.dispatch("MOUSE_DOWN", new TouchMouseEvent(ev))
+    );
     canvas.on("mousemove", (ev) => this.machine.dispatch("MOUSE_MOVE", ev));
-    canvas.on("mouseup", (ev) => this.machine.dispatch("MOUSE_UP", ev));
+    canvas.on("touchmove", (ev) =>
+      this.machine.dispatch("MOUSE_MOVE", new TouchMouseEvent(ev))
+    );
+    canvas.on("mouseup", (ev) =>
+      this.machine.dispatch("MOUSE_UP", new TouchMouseEvent(ev))
+    );
+    canvas.on("touchcancel", (ev) => this.machine.dispatch("MOUSE_UP", ev));
 
     this.machine.onTouch("PAINTING", (event) => this.handlePaint(game, event));
   }
@@ -56,6 +65,7 @@ class GameCanvas {
   }
 
   handlePaint = (game, { offsetX, offsetY }) => {
+    console.log(offsetX, offsetY);
     const newPos = WorldPosition.fromOffset(offsetX, offsetY, game.state);
     const isSamePos = inspect(game.state.lastPos) === inspect(newPos);
     game.state.lastPos = newPos;
